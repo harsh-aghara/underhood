@@ -1,0 +1,8 @@
+name: underhood
+version: 1.0.0
+description: Deep codebase comprehension and architectural diagnostic scanner. Replaces vague AI summaries with an instant, high-density mechanical X-ray.
+author: Harsh Aghara
+provides_commands:
+  - underhood
+provides_skills:
+  - underhood

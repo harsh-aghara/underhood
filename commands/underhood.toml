@@ -1,0 +1,13 @@
+description = "High-precision architectural and execution analysis"
+prompt = """
+Deliver a high-precision architectural and execution analysis of target: {{args}}.
+Execution discipline: Inspect entry points -> state engine -> execution path -> contracts.
+Calibrate scale dynamically (Monolith Subsystems vs Localized Module vs PR Delta).
+Deliver the 5 Technical Sections in a single turn without conversational filler:
+1. System Topology & Core State Engine (subsystem boundaries + handoff data structures)
+2. Primary Execution Path Trace (numbered call path with file:line citations)
+3. Architectural Decisions & System Contracts (chosen patterns vs rejected alternatives)
+4. Operational Boundaries & Failure Modes (root-cause data structures/handles, not log strings)
+5. Specification vs. Implementation Audit (documented claims vs actual code guarantees)
+Cite file:line. Tag claims as [VERIFIED] or [INFERRED]. Avoid abstract qualifiers.
+"""
