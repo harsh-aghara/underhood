@@ -1,0 +1,45 @@
+{
+  "name": "underhood",
+  "version": "1.0.0",
+  "description": "Deep codebase comprehension and architectural diagnostic scanner for AI coding agents. Stop skimming, own the code.",
+  "keywords": [
+    "ai-agent",
+    "skills",
+    "antigravity",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "opencode",
+    "code-comprehension",
+    "architecture",
+    "code-review",
+    "developer-tools",
+    "underhood"
+  ],
+  "license": "MIT",
+  "author": "Harsh Aghara",
+  "bin": {
+    "underhood": "./bin/cli.js",
+    "underhood-skill": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    ".agents/",
+    ".claude/",
+    ".cursor/",
+    ".windsurf/",
+    "commands/",
+    "gemini-extension.json",
+    "plugin.json",
+    "plugin.yaml",
+    "AGENTS.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
