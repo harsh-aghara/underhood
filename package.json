@@ -18,6 +18,14 @@
   ],
   "license": "MIT",
   "author": "Harsh Aghara",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harsh-aghara/underhood.git"
+  },
+  "homepage": "https://github.com/harsh-aghara/underhood#readme",
+  "bugs": {
+    "url": "https://github.com/harsh-aghara/underhood/issues"
+  },
   "bin": {
     "underhood": "./bin/cli.js",
     "underhood-skill": "./bin/cli.js"

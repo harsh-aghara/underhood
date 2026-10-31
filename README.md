@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-111111?style=flat-square" alt="Version">
   <img src="https://img.shields.io/npm/v/underhood?style=flat-square&color=111111&label=npm" alt="npm">
-  <img src="https://img.shields.io/badge/works%20with-20%20agents-111111?style=flat-square" alt="Works with 10 agents">
+  <img src="https://img.shields.io/badge/works%20with-20%20agents-111111?style=flat-square" alt="Works with 20 agents">
   <img src="https://img.shields.io/badge/license-MIT-111111?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/badge/zero%20Q%26A%20friction-single%20turn-111111?style=flat-square" alt="Single Turn">
 </p>
@@ -55,13 +55,37 @@ If you can't walk up to a whiteboard and predict what the code does before runni
 > *"This PR implements connection pooling optimizations. It refactors the checkout flow into modular helper functions and adds defensive checks to improve stability and resource management across high-concurrency workloads."*
 
 ### You run `/underhood`:
-> **1. System Topology**: State Machine wrapper around upstream driver.  
-> **2. Core State Engine**: `src/pool/tracker.ts` (manages all active leases and timeout handles).  
-> **3. Primary Execution Path**:  
-> `acquire()` [pool.ts:42] $\rightarrow$ checks lease budget [tracker.ts:55] $\rightarrow$ arms timer with `unref()` [tracker.ts:68] $\rightarrow$ rebinds `this` to bypass outer interceptors.  
-> **4. Design Rationale**: Uses an internal Map instead of attaching properties directly to the client socket. Rejected alternative (monkey-patching client) caused silent collisions with third-party middleware.  
-> **5. Operational Limits (Double-Release)**: Calling `release()` twice is a silent no-op; the Map key is deleted on the first call, so the second call receives `undefined` and exits without corrupting timer state.  
-> **6. Specification Audit**: README claims *"zero-allocation tracking"*, but line 68 allocates an anonymous closure on every checkout to capture the call stack.
+> **Scope:** `src/pool/` · Module · State Machine · static analysis, nothing executed  
+> **Coverage:** read 3 behavior-carrying files; not read: `test/` (fixtures only)  
+> **Assumptions:** none  
+> **Evidence:** unmarked claims were read directly in source · [INFERRED] · [UNKNOWN]  
+>  
+> **At a glance:** Connection lease state machine wrapping an upstream driver. Active leases and timeout handles live in an internal Map in `src/pool/tracker.ts:18`. The sharpest operational edge is double-release, which exits as a silent no-op without corrupting timer state.  
+>  
+> **1. Topology & Core State Engine**  
+> - **Purpose:** State machine lease tracker managing client socket lifecycle.  
+> - **Flow:** `acquire()` [pool.ts:42] $\rightarrow$ lease budget [tracker.ts:55] $\rightarrow$ unref timer [tracker.ts:68] $\rightarrow$ client socket  
+> - **Core state engine:** `src/pool/tracker.ts:18` holds lease Map and timer references.  
+>  
+> **2. Primary Execution Path**  
+> 1. `acquire()` at `pool.ts:42` queries lease budget at `tracker.ts:55`.  
+> 2. `tracker.ts:68` arms checkout timeout timer with `unref()`.  
+> 3. `pool.ts:89` rebinds `this` context before dispatching to caller.  
+>  
+> **3. Decisions & Contracts**  
+> - **Design choice:** Internal Map for leases instead of socket properties [INFERRED: avoids collision with third-party middleware].  
+> - **Alternative not taken:** Monkey-patching client socket; causes silent collision under nested interceptors.  
+> - **Upstream contracts:** Caller must invoke `release()` once per checkout.  
+>  
+> **4. Failure Modes**  
+> - **Nominal:** `release()` at `pool.ts:104` deletes Map entry and clears timer.  
+> - **Interrupted / Timeout:** Timer fires at `tracker.ts:74`, destroys socket, rejects pending checkout.  
+> - **Concurrency / Re-entrancy:** Calling `release()` twice is a silent no-op; second call receives `undefined` and exits without corrupting timer state.  
+>  
+> **5. Spec vs. Implementation**  
+> | Claim | Where stated | Status | Evidence |  
+> | :--- | :--- | :--- | :--- |  
+> | Zero-allocation tracking | README.md:14 | GAP | Line 68 allocates anonymous closure on every checkout |
 
 ---
 
@@ -123,13 +147,24 @@ Syntax-agnostic. Give it whatever you're looking at:
 
 ## 🔬 What Every Output Delivers
 
-Every response is a single-turn, high-density technical analysis:
+Every response is a single-turn, high-density technical analysis tailored to the target scope:
 
-1. **Topology & Core State Engine**: Identifies whether the system is a Pipeline, State Machine, Event Loop, or Layered Domain. Groups files into subsystems with **explicit handoff data structures** and names the module where volatile state lives.
-2. **Primary Execution Path Trace**: Chronological call path of the primary operation with exact `file:line` citations, state mutations, and async/concurrency boundaries.
+### Repositories & Modules (Sections 1–5)
+1. **Topology & Core State Engine**: Identifies whether the system is a Pipeline, State Machine, Event Loop, or Layered Domain with a compact ASCII flow diagram. Groups files into subsystems with **explicit handoff data structures** and pinpoints where volatile state lives (`file:line`).
+2. **Primary Execution Path Trace**: Chronological numbered call path of the primary operation with exact `file:line` citations, state mutations, and async/concurrency boundaries.
 3. **Architectural Decisions & Contracts**: Why the author chose this pattern, **what alternative was rejected and why it would fail**, and upstream dependency assumptions.
-4. **Operational Boundaries & Failure Modes**: Evaluates mechanical behavior at the data structure level: clean execution, resource leaks/timeouts, and concurrent re-entrancy.
-5. **Specification vs. Implementation Audit**: Audits README/doc promises against source code reality (`[SUPPORTED]`, `[PARTIAL]`, or `[SPEC-vs-CODE GAP]`).
+4. **Operational Boundaries & Failure Modes**: Evaluates mechanical behavior at the data structure level: nominal completion, interrupted/timeout paths, and concurrent re-entrancy.
+5. **Specification vs. Implementation Audit**: Audits README/doc claims against source code reality in a structured audit table (`SUPPORTED`, `PARTIAL`, or `GAP`), uncovering hidden runtime costs.
+
+### Pull Requests & Diffs (Delta Mode, Sections 1–6)
+When pointed at a PR (`/underhood pr 14`), commit, or diff, `/underhood` switches to **Delta mode**:
+1. **Intent vs. Reality**: Verifies PR title/description promises against actual diff mechanics.
+2. **Behavior Delta**: Pre- vs post-change state mutations and control flow with `file:line` citations on both sides.
+3. **Invariants & Contracts Touched**: Guarantees kept, weakened, or broken, and new upstream assumptions.
+4. **Blast Radius**: Callers, consumers, and dependents of changed symbols with test coverage mapping.
+5. **Unhandled Edges & Failure Modes**: Leaks, timeout traps, and concurrency races introduced by the diff.
+6. **Docs & Tests Out of Sync**: Discrepancies between modified code and existing documentation/tests.  
+*Ending with:* **Highest-risk change**: The single most dangerous change in the diff and why, citing code.
 
 ---
 

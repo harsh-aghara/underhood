@@ -9,5 +9,5 @@ Deliver the sections in a single turn without conversational filler:
 3. Decisions & Contracts (design choices vs alternatives not taken, upstream contracts)
 4. Failure Modes (nominal path, interrupted/exceptional path, concurrency & re-entrancy at state level)
 5. Spec vs. Implementation Audit (documented claims vs code reality, hidden runtime costs)
-Cite file:line. Tag claims as [VERIFIED] or [INFERRED]. Avoid empty qualifiers.
+Cite file:line. Unmarked claims cite source directly; tag deductions as [INFERRED] or [UNKNOWN]. Avoid empty qualifiers.
 """
