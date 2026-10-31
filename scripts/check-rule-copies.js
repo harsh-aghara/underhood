@@ -35,17 +35,20 @@ for (const [relPath, normalize] of copies) {
 
 // Invariants check: Ensure load-bearing sections survive in all adapters
 const INVARIANTS = [
-  '## 1. Scale & Topology Calibration',
-  '## 2. Technical Analysis Requirements',
-  'Section 1: System Topology & Core State Engine',
-  'Section 2: Primary Execution Path Trace',
-  'Section 3: Architectural Decisions & System Contracts',
-  'Section 4: Operational Boundaries & Failure Modes',
-  'Section 5: Specification vs. Implementation Audit',
-  'Execution Discipline: Reading Sequence',
-  'Do not examine peripheral utilities, data schemas, or configuration files first',
-  'root-cause state level (in-memory data structures, pointers/references',
-  '[VERIFIED: Implementation matches documented specification]'
+  '# /underhood: how the code really works',
+  '## Resolve the target',
+  '## Choose the scope',
+  '### Topology',
+  '### Reading order',
+  '## Output',
+  '### Macro and Module sections',
+  '1. Topology & Core State Engine',
+  '2. Primary execution path',
+  '3. Decisions & contracts',
+  '4. Failure modes',
+  '5. Spec vs. implementation',
+  '### Delta (PR) sections',
+  '## Evidence rules'
 ];
 
 const allAdapters = [
