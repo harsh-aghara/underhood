@@ -47,6 +47,9 @@
   "scripts": {
     "test": "node --test tests/*.test.js"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "publishConfig": {
     "access": "public"
   }
