@@ -1,0 +1,22 @@
+{
+  "name": "underhood",
+  "version": "1.0.0",
+  "description": "Stop getting tours of folder names. Underhood makes your AI agent build a real mental model of a repo, PR, or diff in one pass: the traced execution path with file:line citations, why it was designed that way, how it fails, and where the docs disagree with the code. Understand it well enough to contribute, or to defend what you ship.",
+  "author": {
+    "name": "Harsh Aghara",
+    "url": "https://github.com/harsh-aghara"
+  },
+  "homepage": "https://github.com/harsh-aghara/underhood#readme",
+  "repository": "https://github.com/harsh-aghara/underhood.git",
+  "license": "MIT",
+  "keywords": [
+    "code-explanation",
+    "codebase-comprehension",
+    "pr-review",
+    "onboarding",
+    "mental-model",
+    "design-decisions",
+    "vibe-coding",
+    "skills"
+  ]
+}

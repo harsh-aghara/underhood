@@ -15,9 +15,16 @@
 
 ## Install
 
+### Global / Workspace CLI
 ```bash
 npx underhood init             # current project
 npx underhood init --global    # all projects (~/.claude, ~/.gemini, ...)
+```
+
+### Claude Code Plugin Marketplace
+```bash
+/plugin marketplace add harsh-aghara/underhood
+/plugin install underhood@underhood-marketplace
 ```
 
 Requires Node.js >= 18.0.0.

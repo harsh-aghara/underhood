@@ -1,3 +1,8 @@
+---
+description: Deep codebase comprehension and architectural diagnostic scanner.
+argument-hint: [target]
+---
+
 # Underhood Command (`/underhood`)
 
 Target: `$ARGUMENTS`

@@ -1,0 +1,17 @@
+{
+  "name": "underhood-marketplace",
+  "owner": {
+    "name": "Harsh Aghara"
+  },
+  "metadata": {
+    "description": "AI code explanations that actually explain: traced paths, design decisions, and failure modes you can verify."
+  },
+  "plugins": [
+    {
+      "name": "underhood",
+      "description": "Understand any repo, PR, or diff well enough to own and defend it: traced execution paths, design decisions, failure modes, and docs-vs-code gaps, with file:line citations.",
+      "version": "1.0.0",
+      "source": "./"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ const canonical = read('AGENTS.md');
 
 const copies = [
   ['.agents/skills/underhood/SKILL.md', stripFrontmatter],
+  ['skills/underhood/SKILL.md', stripFrontmatter],
   ['.cursor/rules/underhood.mdc', stripFrontmatter],
   ['.windsurf/rules/underhood.md', text => text.trim()]
 ];
@@ -53,9 +54,11 @@ const INVARIANTS = [
 
 const allAdapters = [
   '.agents/skills/underhood/SKILL.md',
+  'skills/underhood/SKILL.md',
   '.cursor/rules/underhood.mdc',
   '.windsurf/rules/underhood.md',
-  '.claude/commands/underhood.md'
+  '.claude/commands/underhood.md',
+  'commands/underhood.md'
 ];
 
 for (const relPath of allAdapters) {

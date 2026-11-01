@@ -27,16 +27,18 @@
     "url": "https://github.com/harsh-aghara/underhood/issues"
   },
   "bin": {
-    "underhood": "./bin/cli.js",
-    "underhood-skill": "./bin/cli.js"
+    "underhood": "bin/cli.js",
+    "underhood-skill": "bin/cli.js"
   },
   "files": [
     "bin/",
     ".agents/",
     ".claude/",
+    ".claude-plugin/",
     ".cursor/",
     ".windsurf/",
     "commands/",
+    "skills/",
     "gemini-extension.json",
     "plugin.json",
     "plugin.yaml",

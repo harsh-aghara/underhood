@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "underhood": {
+      "source": "harsh-aghara/underhood",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/underhood/SKILL.md",
+      "computedHash": "8b719d351a532c7412cf544157a15a2d6e165da6931f65ac5961dfecbf6e6b9d"
+    }
+  }
+}
